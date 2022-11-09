@@ -2,7 +2,7 @@
 
 using System.Windows.Forms;
 
-namespace TestAudioPlayer
+namespace AudioPlayer
 {
     partial class MainPlayerForm
     {
@@ -168,32 +168,30 @@ namespace TestAudioPlayer
             this.outputDevicesComboBox.Size = new System.Drawing.Size(403, 49);
             this.outputDevicesComboBox.StartIndex = 0;
             this.outputDevicesComboBox.TabIndex = 5;
-            this.outputDevicesComboBox.DataSource = this._outputDevices;
-            this.outputDevicesComboBox.DisplayMember = "DeviceName";
             // 
             // trackTimeDurationLabel
             // 
             this.trackTimeDurationLabel.AutoSize = true;
             this.trackTimeDurationLabel.Depth = 0;
             this.trackTimeDurationLabel.Font = new System.Drawing.Font("Roboto", 14F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Pixel);
-            this.trackTimeDurationLabel.Location = new System.Drawing.Point(877, 498);
+            this.trackTimeDurationLabel.Location = new System.Drawing.Point(916, 521);
             this.trackTimeDurationLabel.MouseState = MaterialSkin.MouseState.HOVER;
             this.trackTimeDurationLabel.Name = "trackTimeDurationLabel";
-            this.trackTimeDurationLabel.Size = new System.Drawing.Size(32, 19);
+            this.trackTimeDurationLabel.Size = new System.Drawing.Size(41, 19);
             this.trackTimeDurationLabel.TabIndex = 6;
-            this.trackTimeDurationLabel.Text = "0:00";
+            this.trackTimeDurationLabel.Text = "00:00";
             // 
             // trackElapsedTimeLabel
             // 
             this.trackElapsedTimeLabel.AutoSize = true;
             this.trackElapsedTimeLabel.Depth = 0;
             this.trackElapsedTimeLabel.Font = new System.Drawing.Font("Roboto", 14F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Pixel);
-            this.trackElapsedTimeLabel.Location = new System.Drawing.Point(106, 498);
+            this.trackElapsedTimeLabel.Location = new System.Drawing.Point(60, 521);
             this.trackElapsedTimeLabel.MouseState = MaterialSkin.MouseState.HOVER;
             this.trackElapsedTimeLabel.Name = "trackElapsedTimeLabel";
-            this.trackElapsedTimeLabel.Size = new System.Drawing.Size(32, 19);
+            this.trackElapsedTimeLabel.Size = new System.Drawing.Size(41, 19);
             this.trackElapsedTimeLabel.TabIndex = 7;
-            this.trackElapsedTimeLabel.Text = "0:00";
+            this.trackElapsedTimeLabel.Text = "00:00";
             // 
             // MainPlayerForm
             // 

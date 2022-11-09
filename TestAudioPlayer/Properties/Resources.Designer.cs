@@ -8,7 +8,7 @@
 // </auto-generated>
 //------------------------------------------------------------------------------
 
-namespace TestAudioPlayer.Properties
+namespace AudioPlayer.Properties
 {
 
 

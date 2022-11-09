@@ -1,6 +1,6 @@
 ﻿
 
-namespace TestAudioPlayer
+namespace AudioPlayer
 {
     public class Song
     {

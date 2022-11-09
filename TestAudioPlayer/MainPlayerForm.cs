@@ -6,7 +6,7 @@ using System.Windows.Forms;
 using Un4seen.Bass;
 using Un4seen.Bass.AddOn.Tags;
 
-namespace TestAudioPlayer
+namespace AudioPlayer
 {
     public partial class MainPlayerForm : Form
     {
@@ -29,7 +29,7 @@ namespace TestAudioPlayer
         private void InitializeOutputDevices()
         {
             var devices = Bass.BASS_GetDeviceInfos();
-            this._outputDevices = devices.Where(x => x.name != "No sound" & x.name != "Default")
+            this._outputDevices = devices.Where(x => x.name != "No sound")
                 .Select(x => new OutputDevice() { DeviceId = Array.IndexOf(devices, x), DeviceName = x.name }).ToList();
         }
 
@@ -89,10 +89,13 @@ namespace TestAudioPlayer
                 trackDuration = Bass.BASS_ChannelBytes2Seconds(_stream, trackLength);
                 timeElapsed = Bass.BASS_ChannelBytes2Seconds(_stream, currentTrackPositin);
                 timeRemain = trackDuration - timeElapsed;
-                var trackDurationTime = Utils.FixTimespan(trackDuration, "MMSS");
-                var trackElapsedTime = Utils.FixTimespan(timeElapsed, "MMSS");
-                this.trackElapsedTimeLabel.Text = trackElapsedTime;
-                this.trackTimeDurationLabel.Text = trackDurationTime;
+                if (trackDuration > 0 && timeElapsed > 0)
+                {
+                    var trackDurationTime = Utils.FixTimespan(trackDuration, "MMSS");
+                    var trackElapsedTime = Utils.FixTimespan(timeElapsed, "MMSS");
+                    this.trackElapsedTimeLabel.Text = trackElapsedTime;
+                    this.trackTimeDurationLabel.Text = trackDurationTime;
+                }
                 trackBar.ValueMax = (int)(Bass.BASS_ChannelGetLength(_stream) / 1000);
                 trackBar.Value = (int)(Bass.BASS_ChannelGetPosition(_stream) / 1000);
                 InitializeOutputDevices();
