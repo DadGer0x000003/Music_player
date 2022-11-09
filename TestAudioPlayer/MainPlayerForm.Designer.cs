@@ -1,5 +1,7 @@
 ﻿
 
+using System.Windows.Forms;
+
 namespace TestAudioPlayer
 {
     partial class MainPlayerForm
@@ -33,10 +35,10 @@ namespace TestAudioPlayer
             this.components = new System.ComponentModel.Container();
             this.playBtn = new MaterialSkin.Controls.MaterialButton();
             this.stopBtn = new MaterialSkin.Controls.MaterialButton();
-            this.previousBtn = new MaterialSkin.Controls.MaterialButton();
-            this.nextBtn = new MaterialSkin.Controls.MaterialButton();
+            this.previousTrackBtn = new MaterialSkin.Controls.MaterialButton();
+            this.nextTrackBtn = new MaterialSkin.Controls.MaterialButton();
             this.trackBar = new MaterialSkin.Controls.MaterialSlider();
-            this.tmrUpdateControls = new System.Windows.Forms.Timer(this.components);
+            this.timerUpdateControls = new System.Windows.Forms.Timer(this.components);
             this.outputDevicesComboBox = new MaterialSkin.Controls.MaterialComboBox();
             this.SuspendLayout();
             // 
@@ -47,8 +49,8 @@ namespace TestAudioPlayer
             this.playBtn.Depth = 0;
             this.playBtn.HighEmphasis = true;
             this.playBtn.Icon = null;
-            this.playBtn.Location = new System.Drawing.Point(295, 437);
-            this.playBtn.Margin = new System.Windows.Forms.Padding(3, 4, 3, 4);
+            this.playBtn.Location = new System.Drawing.Point(393, 538);
+            this.playBtn.Margin = new System.Windows.Forms.Padding(4, 5, 4, 5);
             this.playBtn.MouseState = MaterialSkin.MouseState.HOVER;
             this.playBtn.Name = "playBtn";
             this.playBtn.NoAccentTextColor = System.Drawing.Color.Empty;
@@ -58,7 +60,7 @@ namespace TestAudioPlayer
             this.playBtn.Type = MaterialSkin.Controls.MaterialButton.MaterialButtonType.Contained;
             this.playBtn.UseAccentColor = false;
             this.playBtn.UseVisualStyleBackColor = true;
-            this.playBtn.Click += new System.EventHandler(this.playBtn_Click);
+            this.playBtn.Click += new System.EventHandler(this.PlayBtnClick);
             // 
             // stopBtn
             // 
@@ -67,8 +69,8 @@ namespace TestAudioPlayer
             this.stopBtn.Depth = 0;
             this.stopBtn.HighEmphasis = true;
             this.stopBtn.Icon = null;
-            this.stopBtn.Location = new System.Drawing.Point(365, 437);
-            this.stopBtn.Margin = new System.Windows.Forms.Padding(3, 4, 3, 4);
+            this.stopBtn.Location = new System.Drawing.Point(487, 538);
+            this.stopBtn.Margin = new System.Windows.Forms.Padding(4, 5, 4, 5);
             this.stopBtn.MouseState = MaterialSkin.MouseState.HOVER;
             this.stopBtn.Name = "stopBtn";
             this.stopBtn.NoAccentTextColor = System.Drawing.Color.Empty;
@@ -79,56 +81,57 @@ namespace TestAudioPlayer
             this.stopBtn.Type = MaterialSkin.Controls.MaterialButton.MaterialButtonType.Contained;
             this.stopBtn.UseAccentColor = false;
             this.stopBtn.UseVisualStyleBackColor = true;
-            this.stopBtn.Click += new System.EventHandler(this.stopBtn_Click);
+            this.stopBtn.Click += new System.EventHandler(this.StopBtnClick);
             // 
             // previousBtn
             // 
-            this.previousBtn.AutoSizeMode = System.Windows.Forms.AutoSizeMode.GrowAndShrink;
-            this.previousBtn.Density = MaterialSkin.Controls.MaterialButton.MaterialButtonDensity.Default;
-            this.previousBtn.Depth = 0;
-            this.previousBtn.HighEmphasis = true;
-            this.previousBtn.Icon = null;
-            this.previousBtn.Location = new System.Drawing.Point(225, 437);
-            this.previousBtn.Margin = new System.Windows.Forms.Padding(3, 4, 3, 4);
-            this.previousBtn.MouseState = MaterialSkin.MouseState.HOVER;
-            this.previousBtn.Name = "previousBtn";
-            this.previousBtn.NoAccentTextColor = System.Drawing.Color.Empty;
-            this.previousBtn.Size = new System.Drawing.Size(64, 36);
-            this.previousBtn.TabIndex = 2;
-            this.previousBtn.Text = "<<";
-            this.previousBtn.Type = MaterialSkin.Controls.MaterialButton.MaterialButtonType.Contained;
-            this.previousBtn.UseAccentColor = false;
-            this.previousBtn.UseVisualStyleBackColor = true;
+            this.previousTrackBtn.AutoSizeMode = System.Windows.Forms.AutoSizeMode.GrowAndShrink;
+            this.previousTrackBtn.Density = MaterialSkin.Controls.MaterialButton.MaterialButtonDensity.Default;
+            this.previousTrackBtn.Depth = 0;
+            this.previousTrackBtn.HighEmphasis = true;
+            this.previousTrackBtn.Icon = null;
+            this.previousTrackBtn.Location = new System.Drawing.Point(300, 538);
+            this.previousTrackBtn.Margin = new System.Windows.Forms.Padding(4, 5, 4, 5);
+            this.previousTrackBtn.MouseState = MaterialSkin.MouseState.HOVER;
+            this.previousTrackBtn.Name = "previousBtn";
+            this.previousTrackBtn.NoAccentTextColor = System.Drawing.Color.Empty;
+            this.previousTrackBtn.Size = new System.Drawing.Size(64, 36);
+            this.previousTrackBtn.TabIndex = 2;
+            this.previousTrackBtn.Text = "<<";
+            this.previousTrackBtn.Type = MaterialSkin.Controls.MaterialButton.MaterialButtonType.Contained;
+            this.previousTrackBtn.UseAccentColor = false;
+            this.previousTrackBtn.UseVisualStyleBackColor = true;
             // 
             // nextBtn
             // 
-            this.nextBtn.AutoSizeMode = System.Windows.Forms.AutoSizeMode.GrowAndShrink;
-            this.nextBtn.Density = MaterialSkin.Controls.MaterialButton.MaterialButtonDensity.Default;
-            this.nextBtn.Depth = 0;
-            this.nextBtn.HighEmphasis = true;
-            this.nextBtn.Icon = null;
-            this.nextBtn.Location = new System.Drawing.Point(435, 437);
-            this.nextBtn.Margin = new System.Windows.Forms.Padding(3, 4, 3, 4);
-            this.nextBtn.MouseState = MaterialSkin.MouseState.HOVER;
-            this.nextBtn.Name = "nextBtn";
-            this.nextBtn.NoAccentTextColor = System.Drawing.Color.Empty;
-            this.nextBtn.Size = new System.Drawing.Size(64, 36);
-            this.nextBtn.TabIndex = 3;
-            this.nextBtn.Text = ">>";
-            this.nextBtn.Type = MaterialSkin.Controls.MaterialButton.MaterialButtonType.Contained;
-            this.nextBtn.UseAccentColor = false;
-            this.nextBtn.UseVisualStyleBackColor = true;
+            this.nextTrackBtn.AutoSizeMode = System.Windows.Forms.AutoSizeMode.GrowAndShrink;
+            this.nextTrackBtn.Density = MaterialSkin.Controls.MaterialButton.MaterialButtonDensity.Default;
+            this.nextTrackBtn.Depth = 0;
+            this.nextTrackBtn.HighEmphasis = true;
+            this.nextTrackBtn.Icon = null;
+            this.nextTrackBtn.Location = new System.Drawing.Point(580, 538);
+            this.nextTrackBtn.Margin = new System.Windows.Forms.Padding(4, 5, 4, 5);
+            this.nextTrackBtn.MouseState = MaterialSkin.MouseState.HOVER;
+            this.nextTrackBtn.Name = "nextBtn";
+            this.nextTrackBtn.NoAccentTextColor = System.Drawing.Color.Empty;
+            this.nextTrackBtn.Size = new System.Drawing.Size(64, 36);
+            this.nextTrackBtn.TabIndex = 3;
+            this.nextTrackBtn.Text = ">>";
+            this.nextTrackBtn.Type = MaterialSkin.Controls.MaterialButton.MaterialButtonType.Contained;
+            this.nextTrackBtn.UseAccentColor = false;
+            this.nextTrackBtn.UseVisualStyleBackColor = true;
             // 
             // trackBar
             // 
             this.trackBar.Depth = 0;
             this.trackBar.ForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(222)))), ((int)(((byte)(0)))), ((int)(((byte)(0)))), ((int)(((byte)(0)))));
-            this.trackBar.Location = new System.Drawing.Point(65, 390);
+            this.trackBar.Location = new System.Drawing.Point(87, 480);
+            this.trackBar.Margin = new System.Windows.Forms.Padding(4, 4, 4, 4);
             this.trackBar.MouseState = MaterialSkin.MouseState.HOVER;
             this.trackBar.Name = "trackBar";
             this.trackBar.ShowText = false;
             this.trackBar.ShowValue = false;
-            this.trackBar.Size = new System.Drawing.Size(600, 40);
+            this.trackBar.Size = new System.Drawing.Size(800, 40);
             this.trackBar.TabIndex = 4;
             this.trackBar.Text = "";
             this.trackBar.Value = 0;
@@ -136,8 +139,9 @@ namespace TestAudioPlayer
             // 
             // tmrUpdateControls
             // 
-            this.tmrUpdateControls.Interval = 1000;
-            this.tmrUpdateControls.Tick += new System.EventHandler(this.TimerUpdateTick);
+            this.timerUpdateControls.Interval = 1000;
+            this.timerUpdateControls.Enabled = true;
+            this.timerUpdateControls.Tick += new System.EventHandler(this.TimerUpdateTick);
             // 
             // outputDevicesComboBox
             // 
@@ -148,46 +152,52 @@ namespace TestAudioPlayer
             this.outputDevicesComboBox.DropDownHeight = 174;
             this.outputDevicesComboBox.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
             this.outputDevicesComboBox.DropDownWidth = 121;
-            this.outputDevicesComboBox.Font = new System.Drawing.Font("Roboto Medium", 14F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Pixel);
+            this.outputDevicesComboBox.Font = new System.Drawing.Font("Microsoft Sans Serif", 14F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Pixel);
             this.outputDevicesComboBox.ForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(222)))), ((int)(((byte)(0)))), ((int)(((byte)(0)))), ((int)(((byte)(0)))));
             this.outputDevicesComboBox.FormattingEnabled = true;
             this.outputDevicesComboBox.IntegralHeight = false;
             this.outputDevicesComboBox.ItemHeight = 43;
-            this.outputDevicesComboBox.Location = new System.Drawing.Point(196, 21);
+            this.outputDevicesComboBox.Location = new System.Drawing.Point(285, 147);
+            this.outputDevicesComboBox.Margin = new System.Windows.Forms.Padding(4, 4, 4, 4);
             this.outputDevicesComboBox.MaxDropDownItems = 4;
             this.outputDevicesComboBox.MouseState = MaterialSkin.MouseState.OUT;
             this.outputDevicesComboBox.Name = "outputDevicesComboBox";
-            this.outputDevicesComboBox.Size = new System.Drawing.Size(303, 49);
+            this.outputDevicesComboBox.Size = new System.Drawing.Size(403, 49);
             this.outputDevicesComboBox.StartIndex = 0;
             this.outputDevicesComboBox.TabIndex = 5;
+            this.outputDevicesComboBox.DataSource = this._outputDevices;
+            this.outputDevicesComboBox.DisplayMember = "DeviceName";
             // 
             // MainPlayerForm
             // 
-            this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
+            this.AutoScaleDimensions = new System.Drawing.SizeF(8F, 16F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(784, 548);
+            this.ClientSize = new System.Drawing.Size(1045, 674);
             this.Controls.Add(this.outputDevicesComboBox);
             this.Controls.Add(this.trackBar);
-            this.Controls.Add(this.nextBtn);
-            this.Controls.Add(this.previousBtn);
+            this.Controls.Add(this.nextTrackBtn);
+            this.Controls.Add(this.previousTrackBtn);
             this.Controls.Add(this.stopBtn);
             this.Controls.Add(this.playBtn);
-            this.Margin = new System.Windows.Forms.Padding(2);
+            this.Margin = new System.Windows.Forms.Padding(3, 2, 3, 2);
             this.Name = "MainPlayerForm";
             this.Text = "Player";
-            this.Closing += new System.ComponentModel.CancelEventHandler(this.Form1Closing);
-            this.Load += new System.EventHandler(this.Form1Load);
+            this.Closing += new System.ComponentModel.CancelEventHandler(this.MainPlayerFormClosing);
+            this.Load += new System.EventHandler(this.MainPlayerFormLoad);
+            this.AllowDrop = true;
+            this.DragDrop += new DragEventHandler(MainPlayerFormDrag);
+            this.DragEnter += new DragEventHandler(MainPlayerFormEnter);
             this.ResumeLayout(false);
             this.PerformLayout();
 
         }
 
         #endregion
-        private System.Windows.Forms.Timer tmrUpdateControls;
+        private System.Windows.Forms.Timer timerUpdateControls;
         private MaterialSkin.Controls.MaterialButton playBtn;
         private MaterialSkin.Controls.MaterialButton stopBtn;
-        private MaterialSkin.Controls.MaterialButton previousBtn;
-        private MaterialSkin.Controls.MaterialButton nextBtn;
+        private MaterialSkin.Controls.MaterialButton previousTrackBtn;
+        private MaterialSkin.Controls.MaterialButton nextTrackBtn;
         private MaterialSkin.Controls.MaterialSlider trackBar;
         private MaterialSkin.Controls.MaterialComboBox outputDevicesComboBox;
     }

@@ -12,43 +12,43 @@ namespace TestAudioPlayer
     {
         private int _stream { get; set; }
         private bool _isPlaying { get; set; }
+        private IList<OutputDevice> _outputDevices { get; set; }
+
+
         public MainPlayerForm()
         {
-            InitializeComponent();
             InitializeOutputDevices();
-            this.AllowDrop = true;
-            this.DragDrop += new DragEventHandler(Form1_DragDrop);
-            this.DragEnter += new DragEventHandler(Form1DragEnter);
+            InitializeComponent();
         }
 
-        private void stopBtn_Click(object sender, EventArgs e)
+        private void StopBtnClick(object sender, EventArgs e)
         {
-            
+
         }
 
         private void InitializeOutputDevices()
         {
-            var devices = new List<OutputDevice>();
-            var test = Bass.BASS_GetDeviceInfos();
-
-           
+            var devices = Bass.BASS_GetDeviceInfos();
+            this._outputDevices = devices.Where(x => x.name != "No sound" & x.name != "Default")
+                .Select(x => new OutputDevice() { DeviceId = Array.IndexOf(devices, x), DeviceName = x.name }).ToList();
         }
 
-        private void Form1Load(object sender, System.EventArgs e)
+        private void MainPlayerFormLoad(object sender, System.EventArgs e)
         {
-            if (Bass.BASS_Init(4, 44100, BASSInit.BASS_DEVICE_DEFAULT, this.Handle))
+            if (Bass.BASS_Init(-1, 44100, BASSInit.BASS_DEVICE_DEFAULT, this.Handle))
             {
-                // all fine
+                // all fine, download add-ons
+                var currentDirectory = Directory.GetCurrentDirectory();
+                Dictionary<int, string> loadedPlugIns = Bass.BASS_PluginLoadDirectory(currentDirectory);
             }
             else
+            {
                 MessageBox.Show(this, "Bass_Init error!");
-            var currentDirectory = Directory.GetCurrentDirectory();
-            Dictionary<int, string> loadedPlugIns = Bass.BASS_PluginLoadDirectory(currentDirectory);
+            }
             TimerUpdateTick(null, null);
         }
 
-
-        private void Form1Closing(object sender, System.ComponentModel.CancelEventArgs e)
+        private void MainPlayerFormClosing(object sender, System.ComponentModel.CancelEventArgs e)
         {
             // unload all loaded add-ons...
             Bass.BASS_PluginFree(0);
@@ -57,7 +57,7 @@ namespace TestAudioPlayer
             Bass.BASS_Free();
         }
 
-        private void playBtn_Click(object sender, EventArgs e)
+        private void PlayBtnClick(object sender, EventArgs e)
         {
             if (_isPlaying)
             {
@@ -67,46 +67,37 @@ namespace TestAudioPlayer
             }
             else
             {
-                Bass.BASS_ChannelPlay(_stream,false);
+                Bass.BASS_ChannelPlay(_stream, false);
                 this.playBtn.Text = "PAUSE";
                 _isPlaying = true;
             }
-            /*var tempPath = @"C:\Users\rosty\Desktop\Samples\B1.Fly Me To The Moon (In Other Words).dsf";
-            this.PlaySong(tempPath);*/
         }
-
-
 
         private void TimerUpdateTick(object sender, EventArgs e)
         {
             if (_stream == -1) return;
             try
             {
-                long pos = 0;
-                long len = 0;
-                len = Bass.BASS_ChannelGetLength(_stream);
-                pos = Bass.BASS_ChannelGetPosition(_stream);
+                long currentTrackPositin = 0;
+                long trackLength = 0;
+                trackLength = Bass.BASS_ChannelGetLength(_stream);
+                currentTrackPositin = Bass.BASS_ChannelGetPosition(_stream);
 
-                double tElapsed = 0;
-                double tRemain = 0;
-                double tLength = 0;
-                tLength = Bass.BASS_ChannelBytes2Seconds(_stream, len);
-                tElapsed = Bass.BASS_ChannelBytes2Seconds(_stream, pos);
-                tRemain = tLength - tElapsed;
-                /*lblTime2.Text = Un4seen.Bass.Utils.FixTimespan(tLength, "MMSS");
-                lblTime1.Text = Un4seen.Bass.Utils.FixTimespan(tElapsed, "MMSS");*/
+                double timeElapsed = 0;
+                double timeRemain = 0;
+                double trackDuration = 0;
+                trackDuration = Bass.BASS_ChannelBytes2Seconds(_stream, trackLength);
+                timeElapsed = Bass.BASS_ChannelBytes2Seconds(_stream, currentTrackPositin);
+                timeRemain = trackDuration - timeElapsed;
+                var time = Utils.FixTimespan(trackDuration, "MMSS");
+                var time1 = Utils.FixTimespan(timeElapsed, "MMSS");
 
                 trackBar.ValueMax = (int)(Bass.BASS_ChannelGetLength(_stream) / 1000);
-
-                //TaskbarManager.Instance.SetProgressValue((int)(Bass.BASS_ChannelGetPosition(stream) / 1000), (int)(Bass.BASS_ChannelGetLength(stream) / 1000), this.Handle);
-
-
-
-
-
+                trackBar.Value = (int)(Bass.BASS_ChannelGetPosition(_stream) / 1000);
             }
             catch (Exception ex) { }
         }
+
         private void TrackBarPositionValueChanged(object sender, int newValue)
         {
             if (true)
@@ -115,7 +106,6 @@ namespace TestAudioPlayer
                 TimerUpdateTick(sender, new EventArgs());
             }
         }
-
 
         private void PlaySong(string path)
         {
@@ -146,11 +136,12 @@ namespace TestAudioPlayer
             }
         }
 
-        private void Form1DragEnter(object sender, DragEventArgs e)
+        private void MainPlayerFormEnter(object sender, DragEventArgs e)
         {
             if (e.Data.GetDataPresent(DataFormats.FileDrop)) e.Effect = DragDropEffects.Copy;
         }
-        private void Form1_DragDrop(object sender, DragEventArgs e)
+
+        private void MainPlayerFormDrag(object sender, DragEventArgs e)
         {
             string[] files = (string[])e.Data.GetData(DataFormats.FileDrop);
             var filePath = files.First();
