@@ -168,6 +168,9 @@ namespace AudioPlayer
             this.outputDevicesComboBox.Size = new System.Drawing.Size(403, 49);
             this.outputDevicesComboBox.StartIndex = 0;
             this.outputDevicesComboBox.TabIndex = 5;
+            this.outputDevicesComboBox.SelectionChangeCommitted += new System.EventHandler(this.DeviceSelected);
+
+
             // 
             // trackTimeDurationLabel
             // 
@@ -186,7 +189,7 @@ namespace AudioPlayer
             this.trackElapsedTimeLabel.AutoSize = true;
             this.trackElapsedTimeLabel.Depth = 0;
             this.trackElapsedTimeLabel.Font = new System.Drawing.Font("Roboto", 14F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Pixel);
-            this.trackElapsedTimeLabel.Location = new System.Drawing.Point(60, 521);
+            this.trackElapsedTimeLabel.Location = new System.Drawing.Point(51, 521);
             this.trackElapsedTimeLabel.MouseState = MaterialSkin.MouseState.HOVER;
             this.trackElapsedTimeLabel.Name = "trackElapsedTimeLabel";
             this.trackElapsedTimeLabel.Size = new System.Drawing.Size(41, 19);

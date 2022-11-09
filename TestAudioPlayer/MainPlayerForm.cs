@@ -19,6 +19,9 @@ namespace AudioPlayer
         {
             InitializeOutputDevices();
             InitializeComponent();
+
+            this.outputDevicesComboBox.DataSource = this._outputDevices;
+            this.outputDevicesComboBox.DisplayMember= "DeviceName";
         }
 
         private void StopBtnClick(object sender, EventArgs e)
@@ -101,6 +104,17 @@ namespace AudioPlayer
                 InitializeOutputDevices();
             }
             catch (Exception ex) { }
+        }
+
+        private void DeviceSelected(object sender, EventArgs e)
+        {
+            var selectedDevice = (OutputDevice)this.outputDevicesComboBox.SelectedItem;
+            var deviceIsInit = Bass.BASS_Init(selectedDevice.DeviceId, 44100, BASSInit.BASS_DEVICE_DEFAULT, this.Handle);
+            var deviceIsSetted = Bass.BASS_SetDevice(selectedDevice.DeviceId);
+            if (!deviceIsInit || !deviceIsSetted)
+            {
+                MessageBox.Show(this, $"Error {Bass.BASS_ErrorGetCode()}");
+            }
         }
 
         private void TrackBarPositionValueChanged(object sender, int newValue)
