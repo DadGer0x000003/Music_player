@@ -111,11 +111,17 @@ namespace AudioPlayer
             var selectedDevice = (OutputDevice)this.outputDevicesComboBox.SelectedItem;
             var deviceIsInit = Bass.BASS_Init(selectedDevice.DeviceId, 44100, BASSInit.BASS_DEVICE_DEFAULT, this.Handle);
             var deviceIsSetted = Bass.BASS_SetDevice(selectedDevice.DeviceId);
+            
+            if (isPlayed() || isPaused())
+                Bass.BASS_ChannelSetDevice(_stream, selectedDevice.DeviceId);
             if (!deviceIsInit || !deviceIsSetted)
             {
                 MessageBox.Show(this, $"Error {Bass.BASS_ErrorGetCode()}");
             }
         }
+
+        private bool isPlayed() 
+        { }
 
         private void TrackBarPositionValueChanged(object sender, int newValue)
         {
