@@ -89,11 +89,13 @@ namespace TestAudioPlayer
                 trackDuration = Bass.BASS_ChannelBytes2Seconds(_stream, trackLength);
                 timeElapsed = Bass.BASS_ChannelBytes2Seconds(_stream, currentTrackPositin);
                 timeRemain = trackDuration - timeElapsed;
-                var time = Utils.FixTimespan(trackDuration, "MMSS");
-                var time1 = Utils.FixTimespan(timeElapsed, "MMSS");
-
+                var trackDurationTime = Utils.FixTimespan(trackDuration, "MMSS");
+                var trackElapsedTime = Utils.FixTimespan(timeElapsed, "MMSS");
+                this.trackElapsedTimeLabel.Text = trackElapsedTime;
+                this.trackTimeDurationLabel.Text = trackDurationTime;
                 trackBar.ValueMax = (int)(Bass.BASS_ChannelGetLength(_stream) / 1000);
                 trackBar.Value = (int)(Bass.BASS_ChannelGetPosition(_stream) / 1000);
+                InitializeOutputDevices();
             }
             catch (Exception ex) { }
         }
@@ -147,9 +149,6 @@ namespace TestAudioPlayer
             var filePath = files.First();
             this.PlaySong(filePath);
         }
-
-
-
     }
 }
 

@@ -40,6 +40,8 @@ namespace TestAudioPlayer
             this.trackBar = new MaterialSkin.Controls.MaterialSlider();
             this.timerUpdateControls = new System.Windows.Forms.Timer(this.components);
             this.outputDevicesComboBox = new MaterialSkin.Controls.MaterialComboBox();
+            this.trackTimeDurationLabel = new MaterialSkin.Controls.MaterialLabel();
+            this.trackElapsedTimeLabel = new MaterialSkin.Controls.MaterialLabel();
             this.SuspendLayout();
             // 
             // playBtn
@@ -49,7 +51,7 @@ namespace TestAudioPlayer
             this.playBtn.Depth = 0;
             this.playBtn.HighEmphasis = true;
             this.playBtn.Icon = null;
-            this.playBtn.Location = new System.Drawing.Point(393, 538);
+            this.playBtn.Location = new System.Drawing.Point(423, 579);
             this.playBtn.Margin = new System.Windows.Forms.Padding(4, 5, 4, 5);
             this.playBtn.MouseState = MaterialSkin.MouseState.HOVER;
             this.playBtn.Name = "playBtn";
@@ -69,7 +71,7 @@ namespace TestAudioPlayer
             this.stopBtn.Depth = 0;
             this.stopBtn.HighEmphasis = true;
             this.stopBtn.Icon = null;
-            this.stopBtn.Location = new System.Drawing.Point(487, 538);
+            this.stopBtn.Location = new System.Drawing.Point(517, 579);
             this.stopBtn.Margin = new System.Windows.Forms.Padding(4, 5, 4, 5);
             this.stopBtn.MouseState = MaterialSkin.MouseState.HOVER;
             this.stopBtn.Name = "stopBtn";
@@ -83,17 +85,17 @@ namespace TestAudioPlayer
             this.stopBtn.UseVisualStyleBackColor = true;
             this.stopBtn.Click += new System.EventHandler(this.StopBtnClick);
             // 
-            // previousBtn
+            // previousTrackBtn
             // 
             this.previousTrackBtn.AutoSizeMode = System.Windows.Forms.AutoSizeMode.GrowAndShrink;
             this.previousTrackBtn.Density = MaterialSkin.Controls.MaterialButton.MaterialButtonDensity.Default;
             this.previousTrackBtn.Depth = 0;
             this.previousTrackBtn.HighEmphasis = true;
             this.previousTrackBtn.Icon = null;
-            this.previousTrackBtn.Location = new System.Drawing.Point(300, 538);
+            this.previousTrackBtn.Location = new System.Drawing.Point(330, 579);
             this.previousTrackBtn.Margin = new System.Windows.Forms.Padding(4, 5, 4, 5);
             this.previousTrackBtn.MouseState = MaterialSkin.MouseState.HOVER;
-            this.previousTrackBtn.Name = "previousBtn";
+            this.previousTrackBtn.Name = "previousTrackBtn";
             this.previousTrackBtn.NoAccentTextColor = System.Drawing.Color.Empty;
             this.previousTrackBtn.Size = new System.Drawing.Size(64, 36);
             this.previousTrackBtn.TabIndex = 2;
@@ -102,17 +104,17 @@ namespace TestAudioPlayer
             this.previousTrackBtn.UseAccentColor = false;
             this.previousTrackBtn.UseVisualStyleBackColor = true;
             // 
-            // nextBtn
+            // nextTrackBtn
             // 
             this.nextTrackBtn.AutoSizeMode = System.Windows.Forms.AutoSizeMode.GrowAndShrink;
             this.nextTrackBtn.Density = MaterialSkin.Controls.MaterialButton.MaterialButtonDensity.Default;
             this.nextTrackBtn.Depth = 0;
             this.nextTrackBtn.HighEmphasis = true;
             this.nextTrackBtn.Icon = null;
-            this.nextTrackBtn.Location = new System.Drawing.Point(580, 538);
+            this.nextTrackBtn.Location = new System.Drawing.Point(610, 579);
             this.nextTrackBtn.Margin = new System.Windows.Forms.Padding(4, 5, 4, 5);
             this.nextTrackBtn.MouseState = MaterialSkin.MouseState.HOVER;
-            this.nextTrackBtn.Name = "nextBtn";
+            this.nextTrackBtn.Name = "nextTrackBtn";
             this.nextTrackBtn.NoAccentTextColor = System.Drawing.Color.Empty;
             this.nextTrackBtn.Size = new System.Drawing.Size(64, 36);
             this.nextTrackBtn.TabIndex = 3;
@@ -125,8 +127,8 @@ namespace TestAudioPlayer
             // 
             this.trackBar.Depth = 0;
             this.trackBar.ForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(222)))), ((int)(((byte)(0)))), ((int)(((byte)(0)))), ((int)(((byte)(0)))));
-            this.trackBar.Location = new System.Drawing.Point(87, 480);
-            this.trackBar.Margin = new System.Windows.Forms.Padding(4, 4, 4, 4);
+            this.trackBar.Location = new System.Drawing.Point(109, 521);
+            this.trackBar.Margin = new System.Windows.Forms.Padding(4);
             this.trackBar.MouseState = MaterialSkin.MouseState.HOVER;
             this.trackBar.Name = "trackBar";
             this.trackBar.ShowText = false;
@@ -137,10 +139,10 @@ namespace TestAudioPlayer
             this.trackBar.Value = 0;
             this.trackBar.onValueChanged += new MaterialSkin.Controls.MaterialSlider.ValueChanged(this.TrackBarPositionValueChanged);
             // 
-            // tmrUpdateControls
+            // timerUpdateControls
             // 
-            this.timerUpdateControls.Interval = 1000;
             this.timerUpdateControls.Enabled = true;
+            this.timerUpdateControls.Interval = 1000;
             this.timerUpdateControls.Tick += new System.EventHandler(this.TimerUpdateTick);
             // 
             // outputDevicesComboBox
@@ -148,6 +150,7 @@ namespace TestAudioPlayer
             this.outputDevicesComboBox.AutoResize = false;
             this.outputDevicesComboBox.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(255)))), ((int)(((byte)(255)))), ((int)(((byte)(255)))));
             this.outputDevicesComboBox.Depth = 0;
+            this.outputDevicesComboBox.DisplayMember = "DeviceName";
             this.outputDevicesComboBox.DrawMode = System.Windows.Forms.DrawMode.OwnerDrawVariable;
             this.outputDevicesComboBox.DropDownHeight = 174;
             this.outputDevicesComboBox.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
@@ -158,7 +161,7 @@ namespace TestAudioPlayer
             this.outputDevicesComboBox.IntegralHeight = false;
             this.outputDevicesComboBox.ItemHeight = 43;
             this.outputDevicesComboBox.Location = new System.Drawing.Point(285, 147);
-            this.outputDevicesComboBox.Margin = new System.Windows.Forms.Padding(4, 4, 4, 4);
+            this.outputDevicesComboBox.Margin = new System.Windows.Forms.Padding(4);
             this.outputDevicesComboBox.MaxDropDownItems = 4;
             this.outputDevicesComboBox.MouseState = MaterialSkin.MouseState.OUT;
             this.outputDevicesComboBox.Name = "outputDevicesComboBox";
@@ -168,11 +171,38 @@ namespace TestAudioPlayer
             this.outputDevicesComboBox.DataSource = this._outputDevices;
             this.outputDevicesComboBox.DisplayMember = "DeviceName";
             // 
+            // trackTimeDurationLabel
+            // 
+            this.trackTimeDurationLabel.AutoSize = true;
+            this.trackTimeDurationLabel.Depth = 0;
+            this.trackTimeDurationLabel.Font = new System.Drawing.Font("Roboto", 14F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Pixel);
+            this.trackTimeDurationLabel.Location = new System.Drawing.Point(877, 498);
+            this.trackTimeDurationLabel.MouseState = MaterialSkin.MouseState.HOVER;
+            this.trackTimeDurationLabel.Name = "trackTimeDurationLabel";
+            this.trackTimeDurationLabel.Size = new System.Drawing.Size(32, 19);
+            this.trackTimeDurationLabel.TabIndex = 6;
+            this.trackTimeDurationLabel.Text = "0:00";
+            // 
+            // trackElapsedTimeLabel
+            // 
+            this.trackElapsedTimeLabel.AutoSize = true;
+            this.trackElapsedTimeLabel.Depth = 0;
+            this.trackElapsedTimeLabel.Font = new System.Drawing.Font("Roboto", 14F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Pixel);
+            this.trackElapsedTimeLabel.Location = new System.Drawing.Point(106, 498);
+            this.trackElapsedTimeLabel.MouseState = MaterialSkin.MouseState.HOVER;
+            this.trackElapsedTimeLabel.Name = "trackElapsedTimeLabel";
+            this.trackElapsedTimeLabel.Size = new System.Drawing.Size(32, 19);
+            this.trackElapsedTimeLabel.TabIndex = 7;
+            this.trackElapsedTimeLabel.Text = "0:00";
+            // 
             // MainPlayerForm
             // 
+            this.AllowDrop = true;
             this.AutoScaleDimensions = new System.Drawing.SizeF(8F, 16F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.ClientSize = new System.Drawing.Size(1045, 674);
+            this.Controls.Add(this.trackElapsedTimeLabel);
+            this.Controls.Add(this.trackTimeDurationLabel);
             this.Controls.Add(this.outputDevicesComboBox);
             this.Controls.Add(this.trackBar);
             this.Controls.Add(this.nextTrackBtn);
@@ -184,9 +214,8 @@ namespace TestAudioPlayer
             this.Text = "Player";
             this.Closing += new System.ComponentModel.CancelEventHandler(this.MainPlayerFormClosing);
             this.Load += new System.EventHandler(this.MainPlayerFormLoad);
-            this.AllowDrop = true;
-            this.DragDrop += new DragEventHandler(MainPlayerFormDrag);
-            this.DragEnter += new DragEventHandler(MainPlayerFormEnter);
+            this.DragDrop += new System.Windows.Forms.DragEventHandler(this.MainPlayerFormDrag);
+            this.DragEnter += new System.Windows.Forms.DragEventHandler(this.MainPlayerFormEnter);
             this.ResumeLayout(false);
             this.PerformLayout();
 
@@ -200,6 +229,8 @@ namespace TestAudioPlayer
         private MaterialSkin.Controls.MaterialButton nextTrackBtn;
         private MaterialSkin.Controls.MaterialSlider trackBar;
         private MaterialSkin.Controls.MaterialComboBox outputDevicesComboBox;
+        private MaterialSkin.Controls.MaterialLabel trackTimeDurationLabel;
+        private MaterialSkin.Controls.MaterialLabel trackElapsedTimeLabel;
     }
 }
 
