@@ -46,6 +46,8 @@ namespace AudioPlayer
             this.EditSongMaterialButton = new MaterialSkin.Controls.MaterialButton();
             this.titleMaterialLabel = new MaterialSkin.Controls.MaterialLabel();
             this.exclusiveModeMaterialCheckbox = new MaterialSkin.Controls.MaterialCheckbox();
+            this.backgroundWorker1 = new System.ComponentModel.BackgroundWorker();
+            this.volumeSlider = new MaterialSkin.Controls.MaterialSlider();
             this.SuspendLayout();
             // 
             // playBtn
@@ -253,11 +255,24 @@ namespace AudioPlayer
             this.exclusiveModeMaterialCheckbox.Name = "exclusiveModeMaterialCheckbox";
             this.exclusiveModeMaterialCheckbox.ReadOnly = false;
             this.exclusiveModeMaterialCheckbox.Ripple = true;
-            this.exclusiveModeMaterialCheckbox.Size = new System.Drawing.Size(132, 56);
+            this.exclusiveModeMaterialCheckbox.Size = new System.Drawing.Size(155, 37);
             this.exclusiveModeMaterialCheckbox.TabIndex = 13;
-            this.exclusiveModeMaterialCheckbox.Text = "Wasapi";
+            this.exclusiveModeMaterialCheckbox.Text = "\"Exclusive\" Mode";
             this.exclusiveModeMaterialCheckbox.UseVisualStyleBackColor = true;
             this.exclusiveModeMaterialCheckbox.CheckedChanged += new System.EventHandler(this.ExclusiveModeCheckboxCheckedChanged);
+            // 
+            // volumeSlider
+            // 
+            this.volumeSlider.Depth = 0;
+            this.volumeSlider.ForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(222)))), ((int)(((byte)(0)))), ((int)(((byte)(0)))), ((int)(((byte)(0)))));
+            this.volumeSlider.Location = new System.Drawing.Point(650, 187);
+            this.volumeSlider.MouseState = MaterialSkin.MouseState.HOVER;
+            this.volumeSlider.Name = "volumeSlider";
+            this.volumeSlider.Size = new System.Drawing.Size(354, 40);
+            this.volumeSlider.TabIndex = 14;
+            this.volumeSlider.Text = "Volume";
+            this.volumeSlider.onValueChanged += new MaterialSkin.Controls.MaterialSlider.ValueChanged(SliderVolumeValueChanged);
+
             // 
             // MainPlayerForm
             // 
@@ -265,6 +280,7 @@ namespace AudioPlayer
             this.AutoScaleDimensions = new System.Drawing.SizeF(9F, 20F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.ClientSize = new System.Drawing.Size(1176, 842);
+            this.Controls.Add(this.volumeSlider);
             this.Controls.Add(this.exclusiveModeMaterialCheckbox);
             this.Controls.Add(this.titleMaterialLabel);
             this.Controls.Add(this.EditSongMaterialButton);
@@ -303,6 +319,8 @@ namespace AudioPlayer
         private MaterialSkin.Controls.MaterialButton EditSongMaterialButton;
         private MaterialSkin.Controls.MaterialLabel titleMaterialLabel;
         private MaterialSkin.Controls.MaterialCheckbox exclusiveModeMaterialCheckbox;
+        private System.ComponentModel.BackgroundWorker backgroundWorker1;
+        private MaterialSkin.Controls.MaterialSlider volumeSlider;
     }
 }
 

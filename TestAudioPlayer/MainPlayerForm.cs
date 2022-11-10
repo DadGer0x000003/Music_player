@@ -7,7 +7,6 @@ using System.Windows.Forms;
 using Un4seen.Bass;
 using Un4seen.Bass.AddOn.Tags;
 using Un4seen.BassWasapi;
-using static System.Windows.Forms.VisualStyles.VisualStyleElement;
 
 namespace AudioPlayer
 {
@@ -209,6 +208,17 @@ namespace AudioPlayer
             return Bass.BASS_ChannelIsActive(_stream);
         }
 
+
+        private void SliderVolumeValueChanged(object sender, int newValue)
+        {
+
+            var volume = Bass.BASS_GetVolume();
+            var volumeLevel = (float) newValue / 100;
+            var isChanged = Bass.BASS_SetVolume(volumeLevel);
+            var error = Bass.BASS_ErrorGetCode();
+        }
+
+
         private void TrackBarPositionValueChanged(object sender, int newValue)
         {
             if (true)
@@ -321,15 +331,22 @@ namespace AudioPlayer
             this.ActivateExclusiveMode();
         }
 
+
+
+        // Exclusive Mode Code
         private int Process(IntPtr buffer, int length, IntPtr user)
         {
             Bass.BASS_StreamPutData(_stream, buffer, length);
             return length;
         }
+
         private void InitWasapi()
         {
+            Bass.BASS_Stop();
+            Bass.BASS_Free();
+
             WASAPIPROC _process = new WASAPIPROC(Process); // Delegate
-            bool res = BassWasapi.BASS_WASAPI_Init(4, 0, 2, BASSWASAPIInit.BASS_WASAPI_SHARED, 0.1f, 0f, _process, this.Handle);
+            bool res = BassWasapi.BASS_WASAPI_Init(-1, 44100, 2, BASSWASAPIInit.BASS_WASAPI_EXCLUSIVE, 0.1f, 0f, _process, this.Handle);
             var error = Bass.BASS_ErrorGetCode();
             if (!res)
             {
@@ -342,13 +359,13 @@ namespace AudioPlayer
 
             BassWasapi.BASS_WASAPI_Start();
         }
+
         private void ActivateExclusiveMode()
         {
             if (!_isExclusiveModeActive)
             {
                 BASS_WASAPI_INFO info = new BASS_WASAPI_INFO();
                 BassWasapi.BASS_WASAPI_GetInfo(info);
-
                 //InitWasapi();
             }
         }
