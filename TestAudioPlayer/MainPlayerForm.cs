@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.IO;
 using System.Linq;
+using System.Runtime.InteropServices.ComTypes;
 using System.Windows.Forms;
 using Un4seen.Bass;
 using Un4seen.Bass.AddOn.Tags;
@@ -11,7 +12,6 @@ namespace AudioPlayer
     public partial class MainPlayerForm : Form
     {
         private int _stream { get; set; }
-        private bool _isPlaying { get; set; }
         private IList<OutputDevice> _outputDevices { get; set; }
 
 
@@ -62,17 +62,16 @@ namespace AudioPlayer
 
         private void PlayBtnClick(object sender, EventArgs e)
         {
-            if (_isPlaying)
+            if (ChannelState() is BASSActive.BASS_ACTIVE_PLAYING)
             {
                 Bass.BASS_ChannelPause(_stream);
                 this.playBtn.Text = "PLAY";
-                _isPlaying = false;
             }
-            else
+
+            if (ChannelState() is BASSActive.BASS_ACTIVE_PAUSED)
             {
                 Bass.BASS_ChannelPlay(_stream, false);
                 this.playBtn.Text = "PAUSE";
-                _isPlaying = true;
             }
         }
 
@@ -112,7 +111,7 @@ namespace AudioPlayer
             var deviceIsInit = Bass.BASS_Init(selectedDevice.DeviceId, 44100, BASSInit.BASS_DEVICE_DEFAULT, this.Handle);
             var deviceIsSetted = Bass.BASS_SetDevice(selectedDevice.DeviceId);
             
-            if (isPlayed() || isPaused())
+            if (ChannelState() is BASSActive.BASS_ACTIVE_PLAYING || ChannelState() is BASSActive.BASS_ACTIVE_PAUSED)
                 Bass.BASS_ChannelSetDevice(_stream, selectedDevice.DeviceId);
             if (!deviceIsInit || !deviceIsSetted)
             {
@@ -120,8 +119,10 @@ namespace AudioPlayer
             }
         }
 
-        private bool isPlayed() 
-        { }
+        private BASSActive ChannelState()
+        {
+            return Bass.BASS_ChannelIsActive(_stream);           
+        }
 
         private void TrackBarPositionValueChanged(object sender, int newValue)
         {
