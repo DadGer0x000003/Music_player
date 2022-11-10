@@ -79,6 +79,7 @@
     <Compile Include="MainPlayerForm.Designer.cs">
       <DependentUpon>MainPlayerForm.cs</DependentUpon>
     </Compile>
+    <Compile Include="MainPlayerViewModel.cs" />
     <Compile Include="OutputDevice.cs" />
     <Compile Include="Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />

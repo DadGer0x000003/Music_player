@@ -1,8 +1,10 @@
-﻿using System;
+﻿using MaterialSkin;
+using System;
 using System.Collections.Generic;
+using System.ComponentModel;
 using System.IO;
 using System.Linq;
-using System.Runtime.InteropServices.ComTypes;
+using System.Linq.Expressions;
 using System.Windows.Forms;
 using Un4seen.Bass;
 using Un4seen.Bass.AddOn.Tags;
@@ -12,13 +14,22 @@ namespace AudioPlayer
     public partial class MainPlayerForm : Form
     {
         private int _stream { get; set; }
+
         private IList<OutputDevice> _outputDevices { get; set; }
+
+        private Song _currentSong { get; set; }
+
+        private BindingList<Song> _songs { get; set; } = new BindingList<Song>() { new Song() { Title = "Lose Yourself", Artist = "Eminem", 
+            Path = @"C:\Users\User\Desktop\ProductionProjects\AudioSamples\Eminem - Lose Yourself.mp3" } };
 
 
         public MainPlayerForm()
         {
             InitializeOutputDevices();
             InitializeComponent();
+
+            this.songsListBox.DataSource = _songs;
+            this.songsListBox.DisplayMember= "Title";
 
             this.outputDevicesComboBox.DataSource = this._outputDevices;
             this.outputDevicesComboBox.DisplayMember= "DeviceName";
@@ -66,12 +77,14 @@ namespace AudioPlayer
             {
                 Bass.BASS_ChannelPause(_stream);
                 this.playBtn.Text = "PLAY";
+                return;
             }
-
+           
             if (ChannelState() is BASSActive.BASS_ACTIVE_PAUSED)
             {
                 Bass.BASS_ChannelPlay(_stream, false);
                 this.playBtn.Text = "PAUSE";
+                return;
             }
         }
 
@@ -103,20 +116,65 @@ namespace AudioPlayer
                 InitializeOutputDevices();
             }
             catch (Exception ex) { }
+
+            var state = ChannelState();
+            if(state is BASSActive.BASS_ACTIVE_STOPPED && _currentSong != null)
+            {
+                PlayNextTrack();
+            }
         }
+
+        private void PlayNextTrack()
+        {
+            var currentSongIndex = 0;
+
+            if (this._songs == null || !this._songs.Any())
+            {
+                return;
+            }
+
+            try
+            {
+                currentSongIndex = _songs.IndexOf(this._currentSong);
+            }
+            catch
+            (Exception ex)
+            {
+
+            }
+
+            if(currentSongIndex >= this._songs.Count-1) 
+            { 
+                this._currentSong = this._songs.First();
+            }
+
+            if(currentSongIndex < this._songs.Count - 1)
+            {
+                currentSongIndex++;
+                this._currentSong = this._songs[currentSongIndex];
+            }
+
+            this.songsListBox.SelectedIndex = _songs.IndexOf(_currentSong);
+            this.PlaySong(this._currentSong);
+
+
+        }
+
+
 
         private void DeviceSelected(object sender, EventArgs e)
         {
             var selectedDevice = (OutputDevice)this.outputDevicesComboBox.SelectedItem;
             var deviceIsInit = Bass.BASS_Init(selectedDevice.DeviceId, 44100, BASSInit.BASS_DEVICE_DEFAULT, this.Handle);
-            var deviceIsSetted = Bass.BASS_SetDevice(selectedDevice.DeviceId);
-            
+            var deviceIsSetted = Bass.BASS_SetDevice(selectedDevice.DeviceId);           
             if (ChannelState() is BASSActive.BASS_ACTIVE_PLAYING || ChannelState() is BASSActive.BASS_ACTIVE_PAUSED)
                 Bass.BASS_ChannelSetDevice(_stream, selectedDevice.DeviceId);
-            if (!deviceIsInit || !deviceIsSetted)
-            {
-                MessageBox.Show(this, $"Error {Bass.BASS_ErrorGetCode()}");
-            }
+        }
+
+        private void SongDoubleClick(object sender, MouseEventArgs e)
+        {
+            _currentSong = (Song)this.songsListBox.SelectedValue;
+            this.PlaySong(_currentSong);
         }
 
         private BASSActive ChannelState()
@@ -133,24 +191,14 @@ namespace AudioPlayer
             }
         }
 
-        private void PlaySong(string path)
-        {
-            this.trackBar.Value = 0;
-            var tagInfo = new TAG_INFO(path);
-            var song = new Song()
-            {
-                Artist = tagInfo.artist,
-                Album = tagInfo.album,
-                Title = tagInfo.title,
-                Path = path
-            };
+        private void PlaySong(Song song)
+        {     
             this.playBtn.Text = "PAUSE";
             Bass.BASS_StreamFree(_stream);
             _stream = Bass.BASS_StreamCreateFile(song.Path, 0, 0, BASSFlag.BASS_DEFAULT);
             trackBar.RangeMax = (int)(Bass.BASS_ChannelGetLength(_stream) / 1000);
             if (_stream != 0 && Bass.BASS_ChannelPlay(_stream, false))
             {
-                _isPlaying = true;
                 BASS_CHANNELINFO info = new BASS_CHANNELINFO();
                 if (Bass.BASS_ChannelGetInfo(_stream, info))
                 {
@@ -171,7 +219,35 @@ namespace AudioPlayer
         {
             string[] files = (string[])e.Data.GetData(DataFormats.FileDrop);
             var filePath = files.First();
-            this.PlaySong(filePath);
+
+
+            var tagInfo = new TAG_INFO(filePath);
+            var song = new Song()
+            {
+                Artist = tagInfo.artist,
+                Album = tagInfo.album,
+                Title = tagInfo.title,
+                Path = filePath
+            };
+
+
+            this.AddSongToPlayList(song);
+        }
+
+        private void AddSongToPlayList(Song song)
+        {
+            this._songs.Add(song);
+        }
+
+        private void AddSongMaterialButtonClick(object sender, EventArgs e)
+        {
+
+        }
+
+        private void RemoveSongMaterialButtonClick(object sender, EventArgs e)
+        {
+            var curentSong = (Song) this.songsListBox.SelectedItem;
+            this._songs.Remove(curentSong);
         }
     }
 }
