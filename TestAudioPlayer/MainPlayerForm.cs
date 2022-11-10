@@ -7,6 +7,7 @@ using System.Windows.Forms;
 using Un4seen.Bass;
 using Un4seen.Bass.AddOn.Tags;
 using Un4seen.BassWasapi;
+using static System.Windows.Forms.VisualStyles.VisualStyleElement;
 
 namespace AudioPlayer
 {
@@ -16,12 +17,11 @@ namespace AudioPlayer
 
         private IList<OutputDevice> _outputDevices { get; set; }
 
-        private Song _currentSong { get; set; }
+        private Song _currentSong { get; set; } 
 
         private bool _isExclusiveModeActive { get; set; }
 
-        private BindingList<Song> _songs { get; set; } = new BindingList<Song>() { new Song() { Title = "Lose Yourself", Artist = "Eminem",
-            Path = @"C:\Users\User\Desktop\ProductionProjects\AudioSamples\Eminem - Lose Yourself.mp3" } };
+        private BindingList<Song> _songs { get; set; } = new BindingList<Song>();
 
 
         public MainPlayerForm()
@@ -45,7 +45,7 @@ namespace AudioPlayer
 
         private void MainPlayerFormLoad(object sender, System.EventArgs e)
         {
-            if (Bass.BASS_Init(-1, 44100, BASSInit.BASS_DEVICE_DEFAULT, this.Handle))
+            if (Bass.BASS_Init(-1, 44100, BASSInit.BASS_DEVICE_DSOUND, this.Handle))
             {
                 // all fine, download add-ons
                 var currentDirectory = Directory.GetCurrentDirectory();
@@ -268,7 +268,31 @@ namespace AudioPlayer
 
         private void AddSongButtonClick(object sender, EventArgs e)
         {
+            OpenFileDialog openFileDialog1 = new OpenFileDialog
+            {
+                InitialDirectory = @"C:\",
+                Title = "Browse Music Files",
 
+                CheckFileExists = true,
+                CheckPathExists = true,
+                RestoreDirectory = true,
+
+                ReadOnlyChecked = true,
+                ShowReadOnly = true
+            };
+            if (openFileDialog1.ShowDialog() == DialogResult.OK)
+            {
+                var tagInfo = new TAG_INFO(openFileDialog1.FileName);
+                var song = new Song()
+                {
+                    Artist = tagInfo.artist,
+                    Album = tagInfo.album,
+                    Title = tagInfo.title,
+                    Path = openFileDialog1.FileName
+                };
+
+                this.AddSongToPlayList(song);
+            }
         }
 
         private void RemoveSongButtonClick(object sender, EventArgs e)
@@ -297,25 +321,35 @@ namespace AudioPlayer
             this.ActivateExclusiveMode();
         }
 
+        private int Process(IntPtr buffer, int length, IntPtr user)
+        {
+            Bass.BASS_StreamPutData(_stream, buffer, length);
+            return length;
+        }
+        private void InitWasapi()
+        {
+            WASAPIPROC _process = new WASAPIPROC(Process); // Delegate
+            bool res = BassWasapi.BASS_WASAPI_Init(4, 0, 2, BASSWASAPIInit.BASS_WASAPI_SHARED, 0.1f, 0f, _process, this.Handle);
+            var error = Bass.BASS_ErrorGetCode();
+            if (!res)
+            {
+                // Do error checking
+            }
+            // This is the part you are looking for (maybe!)
+            // Use these flags because Wasapi needs 32-bit sample data
+            var info = BassWasapi.BASS_WASAPI_GetInfo();
+            _stream = Bass.BASS_StreamCreatePush(info.freq, info.chans, BASSFlag.BASS_DEFAULT, this.Handle);
 
+            BassWasapi.BASS_WASAPI_Start();
+        }
         private void ActivateExclusiveMode()
         {
             if (!_isExclusiveModeActive)
             {
                 BASS_WASAPI_INFO info = new BASS_WASAPI_INFO();
                 BassWasapi.BASS_WASAPI_GetInfo(info);
-                
-                //var result = BassWasapi.BASS_WASAPI_Init(-1, 44100, 2, BASSWASAPIInit.BASS_WASAPI_EXCLUSIVE, test., 0, null, this.Handle);
-                if (Bass.BASS_Init(-1, 44100, BASSInit.BASS_DEVICE_DEFAULT, this.Handle))
-                {
-                    // all fine, download add-ons
-                    var currentDirectory = Directory.GetCurrentDirectory();
-                    Dictionary<int, string> loadedPlugIns = Bass.BASS_PluginLoadDirectory(currentDirectory);
-                }
-                else
-                {
-                    MessageBox.Show(this, "Bass_Init error!");
-                }
+
+                //InitWasapi();
             }
         }
     }
