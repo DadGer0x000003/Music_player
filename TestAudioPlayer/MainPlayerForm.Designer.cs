@@ -34,7 +34,6 @@ namespace AudioPlayer
         {
             this.components = new System.ComponentModel.Container();
             this.playBtn = new MaterialSkin.Controls.MaterialButton();
-            this.stopBtn = new MaterialSkin.Controls.MaterialButton();
             this.previousTrackBtn = new MaterialSkin.Controls.MaterialButton();
             this.nextTrackBtn = new MaterialSkin.Controls.MaterialButton();
             this.trackBar = new MaterialSkin.Controls.MaterialSlider();
@@ -46,6 +45,8 @@ namespace AudioPlayer
             this.AddSongMaterialButton = new MaterialSkin.Controls.MaterialButton();
             this.EditSongMaterialButton = new MaterialSkin.Controls.MaterialButton();
             this.titleMaterialLabel = new MaterialSkin.Controls.MaterialLabel();
+            this.wasapiMaterialCheckbox = new MaterialSkin.Controls.MaterialCheckbox();
+            this.exclusiveModeMaterialCheckbox = new MaterialSkin.Controls.MaterialCheckbox();
             this.SuspendLayout();
             // 
             // playBtn
@@ -55,7 +56,7 @@ namespace AudioPlayer
             this.playBtn.Depth = 0;
             this.playBtn.HighEmphasis = true;
             this.playBtn.Icon = null;
-            this.playBtn.Location = new System.Drawing.Point(423, 578);
+            this.playBtn.Location = new System.Drawing.Point(465, 578);
             this.playBtn.Margin = new System.Windows.Forms.Padding(4, 5, 4, 5);
             this.playBtn.MouseState = MaterialSkin.MouseState.HOVER;
             this.playBtn.Name = "playBtn";
@@ -67,27 +68,6 @@ namespace AudioPlayer
             this.playBtn.UseAccentColor = false;
             this.playBtn.UseVisualStyleBackColor = true;
             this.playBtn.Click += new System.EventHandler(this.PlayBtnClick);
-            // 
-            // stopBtn
-            // 
-            this.stopBtn.AutoSizeMode = System.Windows.Forms.AutoSizeMode.GrowAndShrink;
-            this.stopBtn.Density = MaterialSkin.Controls.MaterialButton.MaterialButtonDensity.Default;
-            this.stopBtn.Depth = 0;
-            this.stopBtn.HighEmphasis = true;
-            this.stopBtn.Icon = null;
-            this.stopBtn.Location = new System.Drawing.Point(517, 578);
-            this.stopBtn.Margin = new System.Windows.Forms.Padding(4, 5, 4, 5);
-            this.stopBtn.MouseState = MaterialSkin.MouseState.HOVER;
-            this.stopBtn.Name = "stopBtn";
-            this.stopBtn.NoAccentTextColor = System.Drawing.Color.Empty;
-            this.stopBtn.Size = new System.Drawing.Size(64, 36);
-            this.stopBtn.TabIndex = 1;
-            this.stopBtn.Text = "STOP";
-            this.stopBtn.TextAlign = System.Drawing.ContentAlignment.MiddleLeft;
-            this.stopBtn.Type = MaterialSkin.Controls.MaterialButton.MaterialButtonType.Contained;
-            this.stopBtn.UseAccentColor = false;
-            this.stopBtn.UseVisualStyleBackColor = true;
-            this.stopBtn.Click += new System.EventHandler(this.StopBtnClick);
             // 
             // previousTrackBtn
             // 
@@ -107,6 +87,7 @@ namespace AudioPlayer
             this.previousTrackBtn.Type = MaterialSkin.Controls.MaterialButton.MaterialButtonType.Contained;
             this.previousTrackBtn.UseAccentColor = false;
             this.previousTrackBtn.UseVisualStyleBackColor = true;
+            this.previousTrackBtn.Click += new System.EventHandler(this.PreviousTrackBtnClick);
             // 
             // nextTrackBtn
             // 
@@ -126,6 +107,7 @@ namespace AudioPlayer
             this.nextTrackBtn.Type = MaterialSkin.Controls.MaterialButton.MaterialButtonType.Contained;
             this.nextTrackBtn.UseAccentColor = false;
             this.nextTrackBtn.UseVisualStyleBackColor = true;
+            this.nextTrackBtn.Click += new System.EventHandler(this.NextTrackBtnClick);
             // 
             // trackBar
             // 
@@ -146,7 +128,7 @@ namespace AudioPlayer
             // timerUpdateControls
             // 
             this.timerUpdateControls.Enabled = true;
-            this.timerUpdateControls.Interval = 1000;
+            this.timerUpdateControls.Interval = 500;
             this.timerUpdateControls.Tick += new System.EventHandler(this.TimerUpdateTick);
             // 
             // outputDevicesComboBox
@@ -208,7 +190,7 @@ namespace AudioPlayer
             this.songsListBox.Name = "songsListBox";
             this.songsListBox.Size = new System.Drawing.Size(545, 234);
             this.songsListBox.TabIndex = 8;
-            this.songsListBox.MouseDoubleClick += new System.Windows.Forms.MouseEventHandler(this.SongDoubleClick);
+            this.songsListBox.MouseDoubleClick += new System.Windows.Forms.MouseEventHandler(this.SongBtnDoubleClick);
             // 
             // AddSongMaterialButton
             // 
@@ -228,7 +210,7 @@ namespace AudioPlayer
             this.AddSongMaterialButton.Type = MaterialSkin.Controls.MaterialButton.MaterialButtonType.Contained;
             this.AddSongMaterialButton.UseAccentColor = false;
             this.AddSongMaterialButton.UseVisualStyleBackColor = true;
-            this.AddSongMaterialButton.Click += new System.EventHandler(this.AddSongMaterialButtonClick);
+            this.AddSongMaterialButton.Click += new System.EventHandler(this.AddSongButtonClick);
             // 
             // EditSongMaterialButton
             // 
@@ -248,7 +230,7 @@ namespace AudioPlayer
             this.EditSongMaterialButton.Type = MaterialSkin.Controls.MaterialButton.MaterialButtonType.Contained;
             this.EditSongMaterialButton.UseAccentColor = false;
             this.EditSongMaterialButton.UseVisualStyleBackColor = true;
-            this.EditSongMaterialButton.Click += new System.EventHandler(this.RemoveSongMaterialButtonClick);
+            this.EditSongMaterialButton.Click += new System.EventHandler(this.RemoveSongButtonClick);
             // 
             // titleMaterialLabel
             // 
@@ -261,12 +243,48 @@ namespace AudioPlayer
             this.titleMaterialLabel.Size = new System.Drawing.Size(1, 0);
             this.titleMaterialLabel.TabIndex = 11;
             // 
+            // wasapiMaterialCheckbox
+            // 
+            this.wasapiMaterialCheckbox.AutoSize = true;
+            this.wasapiMaterialCheckbox.Depth = 0;
+            this.wasapiMaterialCheckbox.Location = new System.Drawing.Point(578, 84);
+            this.wasapiMaterialCheckbox.Margin = new System.Windows.Forms.Padding(0);
+            this.wasapiMaterialCheckbox.MouseLocation = new System.Drawing.Point(-1, -1);
+            this.wasapiMaterialCheckbox.MouseState = MaterialSkin.MouseState.HOVER;
+            this.wasapiMaterialCheckbox.Name = "wasapiMaterialCheckbox";
+            this.wasapiMaterialCheckbox.ReadOnly = false;
+            this.wasapiMaterialCheckbox.Ripple = true;
+            this.wasapiMaterialCheckbox.Size = new System.Drawing.Size(93, 37);
+            this.wasapiMaterialCheckbox.TabIndex = 12;
+            this.wasapiMaterialCheckbox.Text = "WASAPI";
+            this.wasapiMaterialCheckbox.UseVisualStyleBackColor = true;
+            this.wasapiMaterialCheckbox.CheckedChanged += new System.EventHandler(this.WasapiCheckboxCheckedChanged);
+            // 
+            // exclusiveModeMaterialCheckbox
+            // 
+            this.exclusiveModeMaterialCheckbox.AutoSize = true;
+            this.exclusiveModeMaterialCheckbox.Depth = 0;
+            this.exclusiveModeMaterialCheckbox.Location = new System.Drawing.Point(580, 140);
+            this.exclusiveModeMaterialCheckbox.Margin = new System.Windows.Forms.Padding(0);
+            this.exclusiveModeMaterialCheckbox.MouseLocation = new System.Drawing.Point(-1, -1);
+            this.exclusiveModeMaterialCheckbox.MouseState = MaterialSkin.MouseState.HOVER;
+            this.exclusiveModeMaterialCheckbox.Name = "exclusiveModeMaterialCheckbox";
+            this.exclusiveModeMaterialCheckbox.ReadOnly = false;
+            this.exclusiveModeMaterialCheckbox.Ripple = true;
+            this.exclusiveModeMaterialCheckbox.Size = new System.Drawing.Size(155, 37);
+            this.exclusiveModeMaterialCheckbox.TabIndex = 13;
+            this.exclusiveModeMaterialCheckbox.Text = "\"Exclusive\" Mode";
+            this.exclusiveModeMaterialCheckbox.UseVisualStyleBackColor = true;
+            this.exclusiveModeMaterialCheckbox.CheckedChanged += new System.EventHandler(this.ExclusiveModeCheckboxCheckedChanged);
+            // 
             // MainPlayerForm
             // 
             this.AllowDrop = true;
             this.AutoScaleDimensions = new System.Drawing.SizeF(8F, 16F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.ClientSize = new System.Drawing.Size(1045, 674);
+            this.Controls.Add(this.exclusiveModeMaterialCheckbox);
+            this.Controls.Add(this.wasapiMaterialCheckbox);
             this.Controls.Add(this.titleMaterialLabel);
             this.Controls.Add(this.EditSongMaterialButton);
             this.Controls.Add(this.AddSongMaterialButton);
@@ -277,7 +295,6 @@ namespace AudioPlayer
             this.Controls.Add(this.trackBar);
             this.Controls.Add(this.nextTrackBtn);
             this.Controls.Add(this.previousTrackBtn);
-            this.Controls.Add(this.stopBtn);
             this.Controls.Add(this.playBtn);
             this.Margin = new System.Windows.Forms.Padding(3, 2, 3, 2);
             this.Name = "MainPlayerForm";
@@ -294,7 +311,6 @@ namespace AudioPlayer
         #endregion
         private System.Windows.Forms.Timer timerUpdateControls;
         private MaterialSkin.Controls.MaterialButton playBtn;
-        private MaterialSkin.Controls.MaterialButton stopBtn;
         private MaterialSkin.Controls.MaterialButton previousTrackBtn;
         private MaterialSkin.Controls.MaterialButton nextTrackBtn;
         private MaterialSkin.Controls.MaterialSlider trackBar;
@@ -305,6 +321,8 @@ namespace AudioPlayer
         private MaterialSkin.Controls.MaterialButton AddSongMaterialButton;
         private MaterialSkin.Controls.MaterialButton EditSongMaterialButton;
         private MaterialSkin.Controls.MaterialLabel titleMaterialLabel;
+        private MaterialSkin.Controls.MaterialCheckbox wasapiMaterialCheckbox;
+        private MaterialSkin.Controls.MaterialCheckbox exclusiveModeMaterialCheckbox;
     }
 }
 
