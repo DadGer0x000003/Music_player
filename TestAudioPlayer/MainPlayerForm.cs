@@ -302,8 +302,10 @@ namespace AudioPlayer
         {
             if (!_isExclusiveModeActive)
             {
-                var test = BassWasapi.BASS_WASAPI_GetDeviceInfo(-1);
-                var result = BassWasapi.BASS_WASAPI_Init(-1, 44100, 2, BASSWASAPIInit.BASS_WASAPI_EXCLUSIVE, test., 0, null, this.Handle);
+                BASS_WASAPI_INFO info = new BASS_WASAPI_INFO();
+                BassWasapi.BASS_WASAPI_GetInfo(info);
+                
+                //var result = BassWasapi.BASS_WASAPI_Init(-1, 44100, 2, BASSWASAPIInit.BASS_WASAPI_EXCLUSIVE, test., 0, null, this.Handle);
                 if (Bass.BASS_Init(-1, 44100, BASSInit.BASS_DEVICE_DEFAULT, this.Handle))
                 {
                     // all fine, download add-ons
