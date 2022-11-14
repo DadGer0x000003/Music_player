@@ -44,10 +44,11 @@ namespace AudioPlayer
             this.songsListBox = new System.Windows.Forms.ListBox();
             this.AddSongMaterialButton = new MaterialSkin.Controls.MaterialButton();
             this.EditSongMaterialButton = new MaterialSkin.Controls.MaterialButton();
-            this.titleMaterialLabel = new MaterialSkin.Controls.MaterialLabel();
+            this.titleLabel = new MaterialSkin.Controls.MaterialLabel();
             this.exclusiveModeMaterialCheckbox = new MaterialSkin.Controls.MaterialCheckbox();
-            this.backgroundWorker1 = new System.ComponentModel.BackgroundWorker();
             this.volumeSlider = new MaterialSkin.Controls.MaterialSlider();
+            this.artistLabel = new MaterialSkin.Controls.MaterialLabel();
+            this.albumLabel = new MaterialSkin.Controls.MaterialLabel();
             this.SuspendLayout();
             // 
             // playBtn
@@ -57,8 +58,8 @@ namespace AudioPlayer
             this.playBtn.Depth = 0;
             this.playBtn.HighEmphasis = true;
             this.playBtn.Icon = null;
-            this.playBtn.Location = new System.Drawing.Point(523, 722);
-            this.playBtn.Margin = new System.Windows.Forms.Padding(4, 6, 4, 6);
+            this.playBtn.Location = new System.Drawing.Point(324, 470);
+            this.playBtn.Margin = new System.Windows.Forms.Padding(3, 4, 3, 4);
             this.playBtn.MouseState = MaterialSkin.MouseState.HOVER;
             this.playBtn.Name = "playBtn";
             this.playBtn.NoAccentTextColor = System.Drawing.Color.Empty;
@@ -77,8 +78,8 @@ namespace AudioPlayer
             this.previousTrackBtn.Depth = 0;
             this.previousTrackBtn.HighEmphasis = true;
             this.previousTrackBtn.Icon = null;
-            this.previousTrackBtn.Location = new System.Drawing.Point(372, 722);
-            this.previousTrackBtn.Margin = new System.Windows.Forms.Padding(4, 6, 4, 6);
+            this.previousTrackBtn.Location = new System.Drawing.Point(223, 470);
+            this.previousTrackBtn.Margin = new System.Windows.Forms.Padding(3, 4, 3, 4);
             this.previousTrackBtn.MouseState = MaterialSkin.MouseState.HOVER;
             this.previousTrackBtn.Name = "previousTrackBtn";
             this.previousTrackBtn.NoAccentTextColor = System.Drawing.Color.Empty;
@@ -97,8 +98,8 @@ namespace AudioPlayer
             this.nextTrackBtn.Depth = 0;
             this.nextTrackBtn.HighEmphasis = true;
             this.nextTrackBtn.Icon = null;
-            this.nextTrackBtn.Location = new System.Drawing.Point(687, 722);
-            this.nextTrackBtn.Margin = new System.Windows.Forms.Padding(4, 6, 4, 6);
+            this.nextTrackBtn.Location = new System.Drawing.Point(433, 470);
+            this.nextTrackBtn.Margin = new System.Windows.Forms.Padding(3, 4, 3, 4);
             this.nextTrackBtn.MouseState = MaterialSkin.MouseState.HOVER;
             this.nextTrackBtn.Name = "nextTrackBtn";
             this.nextTrackBtn.NoAccentTextColor = System.Drawing.Color.Empty;
@@ -114,13 +115,12 @@ namespace AudioPlayer
             // 
             this.trackBar.Depth = 0;
             this.trackBar.ForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(222)))), ((int)(((byte)(0)))), ((int)(((byte)(0)))), ((int)(((byte)(0)))));
-            this.trackBar.Location = new System.Drawing.Point(123, 651);
-            this.trackBar.Margin = new System.Windows.Forms.Padding(4, 5, 4, 5);
+            this.trackBar.Location = new System.Drawing.Point(82, 423);
             this.trackBar.MouseState = MaterialSkin.MouseState.HOVER;
             this.trackBar.Name = "trackBar";
             this.trackBar.ShowText = false;
             this.trackBar.ShowValue = false;
-            this.trackBar.Size = new System.Drawing.Size(900, 40);
+            this.trackBar.Size = new System.Drawing.Size(600, 40);
             this.trackBar.TabIndex = 4;
             this.trackBar.Text = "";
             this.trackBar.Value = 0;
@@ -147,12 +147,11 @@ namespace AudioPlayer
             this.outputDevicesComboBox.FormattingEnabled = true;
             this.outputDevicesComboBox.IntegralHeight = false;
             this.outputDevicesComboBox.ItemHeight = 43;
-            this.outputDevicesComboBox.Location = new System.Drawing.Point(650, 16);
-            this.outputDevicesComboBox.Margin = new System.Windows.Forms.Padding(4, 5, 4, 5);
+            this.outputDevicesComboBox.Location = new System.Drawing.Point(433, 10);
             this.outputDevicesComboBox.MaxDropDownItems = 4;
             this.outputDevicesComboBox.MouseState = MaterialSkin.MouseState.OUT;
             this.outputDevicesComboBox.Name = "outputDevicesComboBox";
-            this.outputDevicesComboBox.Size = new System.Drawing.Size(426, 49);
+            this.outputDevicesComboBox.Size = new System.Drawing.Size(285, 49);
             this.outputDevicesComboBox.StartIndex = 0;
             this.outputDevicesComboBox.TabIndex = 5;
             this.outputDevicesComboBox.SelectionChangeCommitted += new System.EventHandler(this.DeviceSelected);
@@ -162,7 +161,8 @@ namespace AudioPlayer
             this.trackTimeDurationLabel.AutoSize = true;
             this.trackTimeDurationLabel.Depth = 0;
             this.trackTimeDurationLabel.Font = new System.Drawing.Font("Roboto", 14F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Pixel);
-            this.trackTimeDurationLabel.Location = new System.Drawing.Point(1030, 651);
+            this.trackTimeDurationLabel.Location = new System.Drawing.Point(687, 423);
+            this.trackTimeDurationLabel.Margin = new System.Windows.Forms.Padding(2, 0, 2, 0);
             this.trackTimeDurationLabel.MouseState = MaterialSkin.MouseState.HOVER;
             this.trackTimeDurationLabel.Name = "trackTimeDurationLabel";
             this.trackTimeDurationLabel.Size = new System.Drawing.Size(41, 19);
@@ -174,7 +174,8 @@ namespace AudioPlayer
             this.trackElapsedTimeLabel.AutoSize = true;
             this.trackElapsedTimeLabel.Depth = 0;
             this.trackElapsedTimeLabel.Font = new System.Drawing.Font("Roboto", 14F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Pixel);
-            this.trackElapsedTimeLabel.Location = new System.Drawing.Point(57, 651);
+            this.trackElapsedTimeLabel.Location = new System.Drawing.Point(38, 423);
+            this.trackElapsedTimeLabel.Margin = new System.Windows.Forms.Padding(2, 0, 2, 0);
             this.trackElapsedTimeLabel.MouseState = MaterialSkin.MouseState.HOVER;
             this.trackElapsedTimeLabel.Name = "trackElapsedTimeLabel";
             this.trackElapsedTimeLabel.Size = new System.Drawing.Size(41, 19);
@@ -185,11 +186,11 @@ namespace AudioPlayer
             // 
             this.songsListBox.Font = new System.Drawing.Font("Alef", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(204)));
             this.songsListBox.FormattingEnabled = true;
-            this.songsListBox.ItemHeight = 27;
-            this.songsListBox.Location = new System.Drawing.Point(14, 15);
-            this.songsListBox.Margin = new System.Windows.Forms.Padding(3, 2, 3, 2);
+            this.songsListBox.ItemHeight = 18;
+            this.songsListBox.Location = new System.Drawing.Point(9, 10);
+            this.songsListBox.Margin = new System.Windows.Forms.Padding(2, 1, 2, 1);
             this.songsListBox.Name = "songsListBox";
-            this.songsListBox.Size = new System.Drawing.Size(613, 274);
+            this.songsListBox.Size = new System.Drawing.Size(410, 166);
             this.songsListBox.TabIndex = 8;
             this.songsListBox.MouseDoubleClick += new System.Windows.Forms.MouseEventHandler(this.SongBtnDoubleClick);
             // 
@@ -200,8 +201,8 @@ namespace AudioPlayer
             this.AddSongMaterialButton.Depth = 0;
             this.AddSongMaterialButton.HighEmphasis = true;
             this.AddSongMaterialButton.Icon = null;
-            this.AddSongMaterialButton.Location = new System.Drawing.Point(533, 299);
-            this.AddSongMaterialButton.Margin = new System.Windows.Forms.Padding(4, 8, 4, 8);
+            this.AddSongMaterialButton.Location = new System.Drawing.Point(355, 194);
+            this.AddSongMaterialButton.Margin = new System.Windows.Forms.Padding(3, 5, 3, 5);
             this.AddSongMaterialButton.MouseState = MaterialSkin.MouseState.HOVER;
             this.AddSongMaterialButton.Name = "AddSongMaterialButton";
             this.AddSongMaterialButton.NoAccentTextColor = System.Drawing.Color.Empty;
@@ -220,8 +221,8 @@ namespace AudioPlayer
             this.EditSongMaterialButton.Depth = 0;
             this.EditSongMaterialButton.HighEmphasis = true;
             this.EditSongMaterialButton.Icon = null;
-            this.EditSongMaterialButton.Location = new System.Drawing.Point(405, 300);
-            this.EditSongMaterialButton.Margin = new System.Windows.Forms.Padding(4, 8, 4, 8);
+            this.EditSongMaterialButton.Location = new System.Drawing.Point(270, 195);
+            this.EditSongMaterialButton.Margin = new System.Windows.Forms.Padding(3, 5, 3, 5);
             this.EditSongMaterialButton.MouseState = MaterialSkin.MouseState.HOVER;
             this.EditSongMaterialButton.Name = "EditSongMaterialButton";
             this.EditSongMaterialButton.NoAccentTextColor = System.Drawing.Color.Empty;
@@ -233,22 +234,25 @@ namespace AudioPlayer
             this.EditSongMaterialButton.UseVisualStyleBackColor = true;
             this.EditSongMaterialButton.Click += new System.EventHandler(this.RemoveSongButtonClick);
             // 
-            // titleMaterialLabel
+            // titleLabel
             // 
-            this.titleMaterialLabel.AutoSize = true;
-            this.titleMaterialLabel.Depth = 0;
-            this.titleMaterialLabel.Font = new System.Drawing.Font("Roboto", 14F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Pixel);
-            this.titleMaterialLabel.Location = new System.Drawing.Point(472, 432);
-            this.titleMaterialLabel.MouseState = MaterialSkin.MouseState.HOVER;
-            this.titleMaterialLabel.Name = "titleMaterialLabel";
-            this.titleMaterialLabel.Size = new System.Drawing.Size(1, 0);
-            this.titleMaterialLabel.TabIndex = 11;
+            this.titleLabel.Depth = 0;
+            this.titleLabel.Font = new System.Drawing.Font("Roboto", 14F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Pixel);
+            this.titleLabel.Location = new System.Drawing.Point(299, 283);
+            this.titleLabel.Margin = new System.Windows.Forms.Padding(2, 0, 2, 0);
+            this.titleLabel.MouseState = MaterialSkin.MouseState.HOVER;
+            this.titleLabel.Name = "titleLabel";
+            this.titleLabel.Size = new System.Drawing.Size(120, 20);
+            this.titleLabel.TabIndex = 11;
+            this.titleLabel.Text = "Title";
+            this.titleLabel.TextAlign = System.Drawing.ContentAlignment.TopCenter;
+            this.titleLabel.Visible = false;
             // 
             // exclusiveModeMaterialCheckbox
             // 
             this.exclusiveModeMaterialCheckbox.AutoSize = true;
             this.exclusiveModeMaterialCheckbox.Depth = 0;
-            this.exclusiveModeMaterialCheckbox.Location = new System.Drawing.Point(650, 98);
+            this.exclusiveModeMaterialCheckbox.Location = new System.Drawing.Point(433, 64);
             this.exclusiveModeMaterialCheckbox.Margin = new System.Windows.Forms.Padding(0);
             this.exclusiveModeMaterialCheckbox.MouseLocation = new System.Drawing.Point(-1, -1);
             this.exclusiveModeMaterialCheckbox.MouseState = MaterialSkin.MouseState.HOVER;
@@ -259,30 +263,57 @@ namespace AudioPlayer
             this.exclusiveModeMaterialCheckbox.TabIndex = 13;
             this.exclusiveModeMaterialCheckbox.Text = "\"Exclusive\" Mode";
             this.exclusiveModeMaterialCheckbox.UseVisualStyleBackColor = true;
-            this.exclusiveModeMaterialCheckbox.CheckedChanged += new System.EventHandler(this.ExclusiveModeCheckboxCheckedChanged);
             // 
             // volumeSlider
             // 
             this.volumeSlider.Depth = 0;
             this.volumeSlider.ForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(222)))), ((int)(((byte)(0)))), ((int)(((byte)(0)))), ((int)(((byte)(0)))));
-            this.volumeSlider.Location = new System.Drawing.Point(650, 187);
+            this.volumeSlider.Location = new System.Drawing.Point(433, 122);
+            this.volumeSlider.Margin = new System.Windows.Forms.Padding(2);
             this.volumeSlider.MouseState = MaterialSkin.MouseState.HOVER;
             this.volumeSlider.Name = "volumeSlider";
-            this.volumeSlider.Size = new System.Drawing.Size(354, 40);
+            this.volumeSlider.Size = new System.Drawing.Size(236, 40);
             this.volumeSlider.TabIndex = 14;
             this.volumeSlider.Text = "Volume";
-            this.volumeSlider.onValueChanged += new MaterialSkin.Controls.MaterialSlider.ValueChanged(SliderVolumeValueChanged);
-
+            this.volumeSlider.onValueChanged += new MaterialSkin.Controls.MaterialSlider.ValueChanged(this.SliderVolumeValueChanged);
+            // 
+            // artistLabel
+            // 
+            this.artistLabel.Depth = 0;
+            this.artistLabel.Font = new System.Drawing.Font("Roboto", 14F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Pixel);
+            this.artistLabel.Location = new System.Drawing.Point(341, 314);
+            this.artistLabel.MouseState = MaterialSkin.MouseState.HOVER;
+            this.artistLabel.Name = "artistLabel";
+            this.artistLabel.Size = new System.Drawing.Size(38, 19);
+            this.artistLabel.TabIndex = 15;
+            this.artistLabel.Text = "Artist";
+            this.artistLabel.Visible = false;
+            // 
+            // albumLabel
+            // 
+            this.albumLabel.AutoSize = true;
+            this.albumLabel.Depth = 0;
+            this.albumLabel.Font = new System.Drawing.Font("Roboto", 14F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Pixel);
+            this.albumLabel.Location = new System.Drawing.Point(341, 348);
+            this.albumLabel.Margin = new System.Windows.Forms.Padding(2, 0, 2, 0);
+            this.albumLabel.MouseState = MaterialSkin.MouseState.HOVER;
+            this.albumLabel.Name = "albumLabel";
+            this.albumLabel.Size = new System.Drawing.Size(47, 19);
+            this.albumLabel.TabIndex = 16;
+            this.albumLabel.Text = "Album";
+            this.albumLabel.Visible = false;
             // 
             // MainPlayerForm
             // 
             this.AllowDrop = true;
-            this.AutoScaleDimensions = new System.Drawing.SizeF(9F, 20F);
+            this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(1176, 842);
+            this.ClientSize = new System.Drawing.Size(784, 547);
+            this.Controls.Add(this.albumLabel);
+            this.Controls.Add(this.artistLabel);
             this.Controls.Add(this.volumeSlider);
             this.Controls.Add(this.exclusiveModeMaterialCheckbox);
-            this.Controls.Add(this.titleMaterialLabel);
+            this.Controls.Add(this.titleLabel);
             this.Controls.Add(this.EditSongMaterialButton);
             this.Controls.Add(this.AddSongMaterialButton);
             this.Controls.Add(this.songsListBox);
@@ -293,7 +324,7 @@ namespace AudioPlayer
             this.Controls.Add(this.nextTrackBtn);
             this.Controls.Add(this.previousTrackBtn);
             this.Controls.Add(this.playBtn);
-            this.Margin = new System.Windows.Forms.Padding(3, 2, 3, 2);
+            this.Margin = new System.Windows.Forms.Padding(2, 1, 2, 1);
             this.Name = "MainPlayerForm";
             this.Text = "Player";
             this.Closing += new System.ComponentModel.CancelEventHandler(this.MainPlayerFormClosing);
@@ -317,10 +348,11 @@ namespace AudioPlayer
         private ListBox songsListBox;
         private MaterialSkin.Controls.MaterialButton AddSongMaterialButton;
         private MaterialSkin.Controls.MaterialButton EditSongMaterialButton;
-        private MaterialSkin.Controls.MaterialLabel titleMaterialLabel;
+        private MaterialSkin.Controls.MaterialLabel titleLabel;
         private MaterialSkin.Controls.MaterialCheckbox exclusiveModeMaterialCheckbox;
-        private System.ComponentModel.BackgroundWorker backgroundWorker1;
         private MaterialSkin.Controls.MaterialSlider volumeSlider;
+        private MaterialSkin.Controls.MaterialLabel artistLabel;
+        private MaterialSkin.Controls.MaterialLabel albumLabel;
     }
 }
 

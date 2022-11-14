@@ -32,7 +32,7 @@ namespace AudioPlayer
             this.songsListBox.DisplayMember = "Title";
 
             this.outputDevicesComboBox.DataSource = this._outputDevices;
-            this.outputDevicesComboBox.DisplayMember = "DeviceName";
+            this.outputDevicesComboBox.DisplayMember = "CustomDisplayMember";
         }
 
         private void InitializeOutputDevices()
@@ -54,6 +54,8 @@ namespace AudioPlayer
             {
                 MessageBox.Show(this, "Bass_Init error!");
             }
+
+            this.volumeSlider.Value = (int)(Bass.BASS_GetVolume() * 100);
             TimerUpdateTick(null, null);
         }
 
@@ -112,6 +114,26 @@ namespace AudioPlayer
                 InitializeOutputDevices();
             }
             catch (Exception ex) { }
+
+
+            /*if(_currentSong != null)
+            {
+                this.titleLabel.Text = _currentSong.Title;
+                this.artistLabel.Text = _currentSong.Artist;
+                this.albumLabel.Text = _currentSong.Album;
+            }
+            else
+            {
+                this.titleLabel.Text = String.Empty;
+                this.artistLabel.Text = String.Empty;
+                this.albumLabel.Text = String.Empty;
+            }*/
+
+
+            this.titleLabel.Text = String.Empty;
+            this.artistLabel.Text = String.Empty;
+            this.albumLabel.Text = String.Empty;
+
 
             var state = ChannelState();
             if (state is BASSActive.BASS_ACTIVE_STOPPED && _currentSong != null)
@@ -293,12 +315,19 @@ namespace AudioPlayer
             if (openFileDialog1.ShowDialog() == DialogResult.OK)
             {
                 var tagInfo = new TAG_INFO(openFileDialog1.FileName);
+
+                var customDisplayMember = $"{tagInfo.title}";
+                if(tagInfo.album != string.Empty)
+                {
+                    customDisplayMember = $"{tagInfo.title}({tagInfo.album})";
+                }
                 var song = new Song()
                 {
                     Artist = tagInfo.artist,
                     Album = tagInfo.album,
                     Title = tagInfo.title,
-                    Path = openFileDialog1.FileName
+                    Path = openFileDialog1.FileName,
+                    CustomDisplayMember = customDisplayMember
                 };
 
                 this.AddSongToPlayList(song);
@@ -321,10 +350,6 @@ namespace AudioPlayer
             this.PlayPreviousTrack();
         }
 
-        private void WasapiCheckboxCheckedChanged(object sender, EventArgs e)
-        {
-
-        }
 
         private void ExclusiveModeCheckboxCheckedChanged(object sender, EventArgs e)
         {

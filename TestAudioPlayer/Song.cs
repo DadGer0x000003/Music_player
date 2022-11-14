@@ -4,6 +4,8 @@ namespace AudioPlayer
 {
     public class Song
     {
+
+
         public string Album { get; set; }
 
         public string Artist { get; set; }
@@ -12,5 +14,6 @@ namespace AudioPlayer
 
         public string Path { get; set; }
 
+        public string CustomDisplayMember { get; set; }
     }
 }
