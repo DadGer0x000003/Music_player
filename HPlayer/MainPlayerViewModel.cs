@@ -3,7 +3,7 @@
 using System.ComponentModel;
 using System.Runtime.CompilerServices;
 
-namespace TestAudioPlayer
+namespace HPlayer
 {
     public class MainPlayerViewModel: INotifyPropertyChanged
     {

@@ -1,6 +1,9 @@
-﻿using System;
+﻿using MaterialSkin;
+using MaterialSkin.Controls;
+using System;
 using System.Collections.Generic;
 using System.ComponentModel;
+using System.Drawing;
 using System.IO;
 using System.Linq;
 using System.Windows.Forms;
@@ -10,7 +13,7 @@ using Un4seen.BassWasapi;
 
 namespace AudioPlayer
 {
-    public partial class MainPlayerForm : Form
+    public partial class MainPlayerForm : MaterialForm
     {
         private int _stream { get; set; }
 
@@ -32,7 +35,11 @@ namespace AudioPlayer
             this.songsListBox.DisplayMember = "Title";
 
             this.outputDevicesComboBox.DataSource = this._outputDevices;
-            this.outputDevicesComboBox.DisplayMember = "CustomDisplayMember";
+            this.outputDevicesComboBox.DisplayMember = "DeviceName";
+            var materialSkinManager = MaterialSkinManager.Instance;
+            materialSkinManager.AddFormToManage(this);
+            materialSkinManager.Theme = MaterialSkinManager.Themes.LIGHT;
+            materialSkinManager.ColorScheme = new ColorScheme(Primary.BlueGrey800, Primary.BlueGrey900, Primary.BlueGrey500, Accent.LightBlue200, TextShade.WHITE);
         }
 
         private void InitializeOutputDevices()
@@ -115,24 +122,28 @@ namespace AudioPlayer
             }
             catch (Exception ex) { }
 
+            
 
-            /*if(_currentSong != null)
+            if (_currentSong != null)
             {
+                var test = BassTags.BASS_TAG_GetFromFile(_currentSong.Path);
+                var pic = test.PictureGetImage(0);
+                    
+                    
+                    
+                    
                 this.titleLabel.Text = _currentSong.Title;
                 this.artistLabel.Text = _currentSong.Artist;
                 this.albumLabel.Text = _currentSong.Album;
+                
+                this.coverPictureBox.Image = pic;
             }
             else
             {
                 this.titleLabel.Text = String.Empty;
                 this.artistLabel.Text = String.Empty;
                 this.albumLabel.Text = String.Empty;
-            }*/
-
-
-            this.titleLabel.Text = String.Empty;
-            this.artistLabel.Text = String.Empty;
-            this.albumLabel.Text = String.Empty;
+            }
 
 
             var state = ChannelState();
@@ -236,7 +247,7 @@ namespace AudioPlayer
 
             var volume = Bass.BASS_GetVolume();
             var volumeLevel = (float) newValue / 100;
-            var isChanged = Bass.BASS_SetVolume(volumeLevel);
+            var isChanged = Bass.BASS_ChannelSetAttribute(_stream, BASSAttribute.BASS_ATTRIB_VOL, volumeLevel); //100%
             var error = Bass.BASS_ErrorGetCode();
         }
 
@@ -281,12 +292,14 @@ namespace AudioPlayer
 
 
             var tagInfo = new TAG_INFO(filePath);
+            var pic = new TagPicture(filePath);
             var song = new Song()
             {
                 Artist = tagInfo.artist,
                 Album = tagInfo.album,
                 Title = tagInfo.title,
-                Path = filePath
+                Path = filePath,
+                TagPicture = pic
             };
 
 
@@ -315,19 +328,14 @@ namespace AudioPlayer
             if (openFileDialog1.ShowDialog() == DialogResult.OK)
             {
                 var tagInfo = new TAG_INFO(openFileDialog1.FileName);
-
-                var customDisplayMember = $"{tagInfo.title}";
-                if(tagInfo.album != string.Empty)
-                {
-                    customDisplayMember = $"{tagInfo.title}({tagInfo.album})";
-                }
+                var pic = new TagPicture(openFileDialog1.FileName);
                 var song = new Song()
                 {
                     Artist = tagInfo.artist,
                     Album = tagInfo.album,
                     Title = tagInfo.title,
                     Path = openFileDialog1.FileName,
-                    CustomDisplayMember = customDisplayMember
+                    TagPicture = pic
                 };
 
                 this.AddSongToPlayList(song);

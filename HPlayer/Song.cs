@@ -1,5 +1,7 @@
 ﻿
 
+using Un4seen.Bass.AddOn.Tags;
+
 namespace AudioPlayer
 {
     public class Song
@@ -15,5 +17,7 @@ namespace AudioPlayer
         public string Path { get; set; }
 
         public string CustomDisplayMember { get; set; }
+
+        public TagPicture TagPicture { get; set; }
     }
 }

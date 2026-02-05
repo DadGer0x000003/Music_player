@@ -1,9 +1,9 @@
 ﻿
 Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio Version 17
-VisualStudioVersion = 17.3.32804.467
+VisualStudioVersion = 17.4.33103.184
 MinimumVisualStudioVersion = 10.0.40219.1
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "TestAudioPlayer", "TestAudioPlayer\TestAudioPlayer.csproj", "{E52A998F-5268-42D2-A134-55609A1A5E97}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "HPlayer", "HPlayer\HPlayer.csproj", "{E52A998F-5268-42D2-A134-55609A1A5E97}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -26,6 +26,6 @@ Global
 		HideSolutionNode = FALSE
 	EndGlobalSection
 	GlobalSection(ExtensibilityGlobals) = postSolution
-		SolutionGuid = {7211D1BE-6296-48D2-9380-30D572322B88}
+		SolutionGuid = {BA504704-9F85-4615-BE57-A58B834449AF}
 	EndGlobalSection
 EndGlobal
